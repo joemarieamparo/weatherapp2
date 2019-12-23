@@ -1,2 +1,2 @@
-# weatherapp2
+# World Weather Online App
 World Weather Online API
