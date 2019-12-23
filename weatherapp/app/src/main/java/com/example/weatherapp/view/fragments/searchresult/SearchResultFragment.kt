@@ -57,6 +57,6 @@ class SearchResultFragment : Fragment() {
     }
 
     private val onItemClickListener = { resultInfo: ResultInfo ->
-            (activity!! as MainActivity).viewModel.cityToForecast.value = resultInfo
+            (activity!! as MainActivity).viewModel.cityToForecastLiveData.value = resultInfo
     }
 }
