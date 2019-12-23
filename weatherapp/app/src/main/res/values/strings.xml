@@ -1,4 +1,7 @@
 <resources>
-    <string name="app_name">weatherapp</string>
+    <string name="app_name">World Weather App</string>
     <string name="action_settings">Settings</string>
+    <string name="search">Search</string>
+    <string name="enter_city">Enter city name</string>
+    <string name="search_results">Search result/s:</string>
 </resources>
