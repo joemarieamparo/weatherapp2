@@ -10,6 +10,9 @@ import androidx.lifecycle.ViewModelProviders
 import com.example.weatherapp.view.MainViewModel.Companion.FACTORY
 import com.example.weatherapp.R
 import com.example.weatherapp.data.WeatherRepo
+import com.example.weatherapp.data.getDatabase
+import com.example.weatherapp.data.getSearchApiService
+import com.example.weatherapp.data.getWeatherApiService
 import com.example.weatherapp.utils.addFragment
 import com.example.weatherapp.utils.toastLongMsg
 import com.example.weatherapp.view.fragments.cityweather.CityWeatherFragment
@@ -24,7 +27,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        viewModel = ViewModelProviders.of(this, FACTORY(WeatherRepo(this))).get(MainViewModel::class.java)
+        val repo = WeatherRepo(getSearchApiService(), getWeatherApiService(), getDatabase(this).cityDao)
+        viewModel = ViewModelProviders.of(this, FACTORY(repo)).get(MainViewModel::class.java)
+
         viewModel.loadCities()
 
         viewModel.searchCitiesLiveData.observe(this, Observer {

@@ -1,17 +1,14 @@
 package com.example.weatherapp.data
 
-import android.content.Context
 import com.example.weatherapp.data.models.SearchResult
 import com.example.weatherapp.data.models.WeatherInfo
 
 /**
  * This class handles data from either api or db
  */
-class WeatherRepo(context: Context) {
-
-    private val searchApiService = getSearchApiService()
-    private val weatherApiService = getWeatherApiService()
-    private val cityDao = getDatabase(context).cityDao
+class WeatherRepo(val searchApiService: SearchApiService,
+                  val weatherApiService: WeatherApiService,
+                  val cityDao: CityDao) {
 
     suspend fun searchCity(city: String): SearchResult {
         return searchApiService.search(city)
