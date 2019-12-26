@@ -78,7 +78,9 @@ class MainViewModel(val repo: WeatherRepo) : ViewModel() {
             val cities = withContext(Dispatchers.IO) {
                 repo.getCities()
             }
-            if (!cities.isNullOrEmpty()) searchCitiesLiveData.value = cities.sortedByDescending { it.id }
+            if (!cities.isNullOrEmpty()) {
+                searchCitiesLiveData.value = cities.sortedByDescending { it.id }.take(10)
+            }
         }
     }
 }
