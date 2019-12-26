@@ -4,4 +4,8 @@
     <string name="search">Search</string>
     <string name="enter_city">Enter city name</string>
     <string name="search_results">Search result/s:</string>
+    <string name="no_result_found">No result found.</string>
+    <string name="server_error_encountered">Server error encountered. Try again later.</string>
+    <string name="today">Today</string>
+    <string name="saving_to_db_failed">Unable to save city details into the database.</string>
 </resources>

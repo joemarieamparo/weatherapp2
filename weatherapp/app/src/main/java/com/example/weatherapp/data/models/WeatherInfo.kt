@@ -1,31 +1,39 @@
-package com.example.weatherapp.data
+package com.example.weatherapp.data.models
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class WeatherInfo(
     val `data`: Data = Data()
-)
+) : Parcelable
 
+@Parcelize
 data class Data(
     val ClimateAverages: List<ClimateAverage> = listOf(),
     val current_condition: List<CurrentCondition> = listOf(),
     val request: List<Request> = listOf(),
     val time_zone: List<TimeZone> = listOf(),
     val weather: List<Weather> = listOf()
-)
+) : Parcelable
 
+@Parcelize
 data class ClimateAverage(
     val month: List<Month> = listOf()
-) {
-    data class Month(
-        val absMaxTemp: String = "",
-        val absMaxTemp_F: String = "",
-        val avgDailyRainfall: String = "",
-        val avgMinTemp: String = "",
-        val avgMinTemp_F: String = "",
-        val index: String = "",
-        val name: String = ""
-    )
-}
+) : Parcelable
 
+@Parcelize
+data class Month(
+    val absMaxTemp: String = "",
+    val absMaxTemp_F: String = "",
+    val avgDailyRainfall: String = "",
+    val avgMinTemp: String = "",
+    val avgMinTemp_F: String = "",
+    val index: String = "",
+    val name: String = ""
+) : Parcelable
+
+@Parcelize
 data class CurrentCondition(
     val FeelsLikeC: String = "",
     val FeelsLikeF: String = "",
@@ -48,19 +56,22 @@ data class CurrentCondition(
     val winddirDegree: String = "",
     val windspeedKmph: String = "",
     val windspeedMiles: String = ""
-)
+) : Parcelable
 
+@Parcelize
 data class Request(
     val query: String = "",
     val type: String = ""
-)
+) : Parcelable
 
+@Parcelize
 data class TimeZone(
     val localtime: String = "",
     val utcOffset: String = "",
     val zone: String = ""
-)
+) : Parcelable
 
+@Parcelize
 data class Weather(
     val astronomy: List<Astronomy> = listOf(),
     val avgtempC: String = "",
@@ -74,8 +85,9 @@ data class Weather(
     val sunHour: String = "",
     val totalSnow_cm: String = "",
     val uvIndex: String = ""
-)
+) : Parcelable
 
+@Parcelize
 data class Astronomy(
     val moon_illumination: String = "",
     val moon_phase: String = "",
@@ -83,8 +95,9 @@ data class Astronomy(
     val moonset: String = "",
     val sunrise: String = "",
     val sunset: String = ""
-)
+) : Parcelable
 
+@Parcelize
 data class Hourly(
     val DewPointC: String = "",
     val DewPointF: String = "",
@@ -125,12 +138,14 @@ data class Hourly(
     val winddirDegree: String = "",
     val windspeedKmph: String = "",
     val windspeedMiles: String = ""
-)
+) : Parcelable
 
+@Parcelize
 data class WeatherDesc(
     val value: String = ""
-)
+) : Parcelable
 
+@Parcelize
 data class WeatherIconUrl(
     val value: String = ""
-)
+) : Parcelable

@@ -1,28 +1,35 @@
 package com.example.weatherapp.data
 
-import java.lang.Exception
+import android.content.Context
+import com.example.weatherapp.data.models.SearchResult
+import com.example.weatherapp.data.models.WeatherInfo
 
 /**
  * This class handles data from either api or db
  */
-class WeatherRepo {
+class WeatherRepo(context: Context) {
 
     private val searchApiService = getSearchApiService()
     private val weatherApiService = getWeatherApiService()
+    private val cityDao = getDatabase(context).cityDao
 
     suspend fun searchCity(city: String): SearchResult {
-        try {
-            return searchApiService.search(city)
-        } catch (e: Exception) {
-            throw e
-        }
+        return searchApiService.search(city)
     }
 
     suspend fun getWeather(query: String): WeatherInfo {
-        try {
-            return  weatherApiService.getWeather(query)
-        } catch (e: Exception) {
-            throw e
-        }
+        return  weatherApiService.getWeather(query)
+    }
+
+    fun saveCityInfoToDb(city: City) {
+        cityDao.insert(city)
+    }
+
+    fun getCities(): List<City> {
+        return cityDao.cities
+    }
+
+    fun getCity(city: City): City {
+        return cityDao.getCity(city.lat, city.lon)
     }
 }

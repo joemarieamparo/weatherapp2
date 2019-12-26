@@ -1,13 +1,14 @@
 package com.example.weatherapp.data
 
 import com.example.weatherapp.BuildConfig
+import com.example.weatherapp.data.models.SearchResult
+import com.example.weatherapp.data.models.WeatherInfo
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
-import retrofit2.http.Url
 
 /**
  * This calls handles network and api related functions

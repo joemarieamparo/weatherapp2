@@ -11,6 +11,8 @@ import com.example.weatherapp.view.MainViewModel.Companion.FACTORY
 import com.example.weatherapp.R
 import com.example.weatherapp.data.WeatherRepo
 import com.example.weatherapp.utils.addFragment
+import com.example.weatherapp.utils.toastLongMsg
+import com.example.weatherapp.view.fragments.cityweather.CityWeatherFragment
 import com.example.weatherapp.view.fragments.searchresult.SearchResultFragment
 
 class MainActivity : AppCompatActivity() {
@@ -22,24 +24,30 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        viewModel = ViewModelProviders.of(this, FACTORY(WeatherRepo())).get(MainViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, FACTORY(WeatherRepo(this))).get(MainViewModel::class.java)
+        viewModel.loadCities()
 
-        viewModel.searchResultsLiveData.observe(this, Observer {
+        viewModel.searchCitiesLiveData.observe(this, Observer {
             it?.let {
-                if (it.isNotEmpty()) addFragment(SearchResultFragment.newInstance(it))
+                addFragment(SearchResultFragment.newInstance(it))
             }
         })
 
         viewModel.cityToForecastLiveData.observe(this, Observer {
             it?.let {
-                viewModel.getWeather(it.latitude, it.longitude)
+                viewModel.getWeather(it.lat, it.lon)
             }
         })
 
         viewModel.cityWeatherLiveData.observe(this, Observer {
             it?.let {
-               //TODO: Handle data here
+                addFragment(CityWeatherFragment.newInstance(it))
+                viewModel.saveCityInfoToDb(it.first)
             }
+        })
+
+        viewModel.toastMsg.observe(this, Observer {
+            toastLongMsg(it)
         })
     }
 

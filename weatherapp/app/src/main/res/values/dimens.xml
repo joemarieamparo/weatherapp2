@@ -2,4 +2,8 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="common_secure_margin_small">7dp</dimen>
     <dimen name="common_secure_margin_normal">10dp</dimen>
+    <dimen name="common_secure_margin_large">20dp</dimen>
+    <dimen name="common_secure_margin_xlarge">30dp</dimen>
+
+    <dimen name="weather_icon_size">80dp</dimen>
 </resources>

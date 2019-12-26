@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.R
-import com.example.weatherapp.data.ResultInfo
+import com.example.weatherapp.data.City
 import com.example.weatherapp.view.MainActivity
 import kotlinx.android.synthetic.main.fragment_search_result.view.*
 
@@ -21,7 +21,7 @@ class SearchResultFragment : Fragment() {
 
         const val EXTRA_WEATHER_DETAILS = "EXTRA_WEATHER_DETAILS"
 
-        fun newInstance(weatherDetails: List<ResultInfo>): SearchResultFragment {
+        fun newInstance(weatherDetails: List<City>): SearchResultFragment {
             var fragment = SearchResultFragment()
             var bundle = Bundle()
             bundle.putParcelableArrayList(EXTRA_WEATHER_DETAILS, ArrayList<Parcelable>(weatherDetails))
@@ -35,7 +35,7 @@ class SearchResultFragment : Fragment() {
         val v =  inflater.inflate(R.layout.fragment_search_result, container, false)
 
         val weatherDetails =
-            arguments!!.getParcelableArrayList<ResultInfo>(EXTRA_WEATHER_DETAILS)!!
+            arguments!!.getParcelableArrayList<City>(EXTRA_WEATHER_DETAILS)!!
 
         val adapter = SearchResultAdapter(weatherDetails, onItemClickListener)
         val viewManager = LinearLayoutManager(activity)
@@ -56,7 +56,7 @@ class SearchResultFragment : Fragment() {
         return v
     }
 
-    private val onItemClickListener = { resultInfo: ResultInfo ->
+    private val onItemClickListener = { resultInfo: City ->
             (activity!! as MainActivity).viewModel.cityToForecastLiveData.value = resultInfo
     }
 }
