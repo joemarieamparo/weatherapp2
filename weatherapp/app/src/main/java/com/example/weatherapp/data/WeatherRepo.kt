@@ -29,7 +29,7 @@ class WeatherRepo(context: Context) {
         return cityDao.cities
     }
 
-    fun getCity(city: City): City {
-        return cityDao.getCity(city.lat, city.lon)
+    fun delete(city: City){
+        cityDao.delete(city.lat, city.lon)
     }
 }

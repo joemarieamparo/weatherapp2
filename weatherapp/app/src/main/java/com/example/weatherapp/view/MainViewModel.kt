@@ -65,8 +65,8 @@ class MainViewModel(val repo: WeatherRepo) : ViewModel() {
     fun saveCityInfoToDb(city: City) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val result = repo.getCity(city)
-                if (result == null) repo.saveCityInfoToDb(city)
+                repo.delete(city)
+                repo.saveCityInfoToDb(city)
             } catch (e: Exception) {
                 toastMsg.value = R.string.saving_to_db_failed
             }
@@ -78,7 +78,7 @@ class MainViewModel(val repo: WeatherRepo) : ViewModel() {
             val cities = withContext(Dispatchers.IO) {
                 repo.getCities()
             }
-            if (!cities.isNullOrEmpty()) searchCitiesLiveData.value = cities
+            if (!cities.isNullOrEmpty()) searchCitiesLiveData.value = cities.sortedByDescending { it.id }
         }
     }
 }

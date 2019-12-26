@@ -31,8 +31,8 @@ interface CityDao {
     @get:Query("SELECT * FROM city")
     val cities: List<City>
 
-    @Query("SELECT * FROM city WHERE lat= :lat AND lon= :lon")
-    fun getCity(lat: String, lon: String) : City
+    @Query("DELETE FROM city WHERE lat= :lat AND lon= :lon")
+    fun delete(lat: String, lon: String)
 }
 
 @Database(entities = [City::class], version = 1, exportSchema = false)
