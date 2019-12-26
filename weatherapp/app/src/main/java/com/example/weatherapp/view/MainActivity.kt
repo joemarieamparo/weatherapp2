@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.cityWeatherLiveData.observe(this, Observer {
             it?.let {
+                searchView.onActionViewCollapsed()
                 addFragment(CityWeatherFragment.newInstance(it))
                 viewModel.saveCityInfoToDb(it.first)
             }
