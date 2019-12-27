@@ -15,7 +15,7 @@ class WeatherRepo(val searchApiService: SearchApiService,
     }
 
     suspend fun getWeather(query: String): WeatherInfo {
-        return  weatherApiService.getWeather(query)
+        return weatherApiService.getWeather(query)
     }
 
     fun saveCityInfoToDb(city: City) {

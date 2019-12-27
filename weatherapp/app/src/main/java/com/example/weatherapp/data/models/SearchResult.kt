@@ -22,8 +22,7 @@ data class ResultInfo(
     val latitude: String = "",
     val longitude: String = "",
     val population: String = "",
-    val region: List<Region> = listOf(),
-    val weatherUrl: List<WeatherUrl> = listOf()
+    val region: List<Region> = listOf()
 ) : Parcelable
 
 @Parcelize
@@ -38,10 +37,5 @@ data class Country(
 
 @Parcelize
 data class Region(
-    val value: String = ""
-) : Parcelable
-
-@Parcelize
-data class WeatherUrl(
     val value: String = ""
 ) : Parcelable

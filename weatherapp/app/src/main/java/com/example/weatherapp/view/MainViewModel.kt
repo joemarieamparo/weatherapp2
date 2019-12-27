@@ -31,7 +31,7 @@ class MainViewModel(val repo: WeatherRepo) : ViewModel() {
         viewModelScope.launch {
             try {
                 val result = repo.searchCity(query).search_api.result.map { it.cityInfo() }
-                if (result.isNotEmpty())
+                if (!result.isNullOrEmpty())
                     searchCitiesLiveData.value = result
                 else
                     toastMsg.value = R.string.no_result_found
@@ -53,8 +53,10 @@ class MainViewModel(val repo: WeatherRepo) : ViewModel() {
                 city.weatherDesc = currentCondition.weatherDesc[0].value
                 city.humidity = currentCondition.humidity
                 city.temp = currentCondition.temp_C
-
-                cityWeatherLiveData.value = Pair(city, result.weather)
+                if (!result.weather.isNullOrEmpty())
+                    cityWeatherLiveData.value = Pair(city, result.weather)
+                else
+                    toastMsg.value = R.string.server_error_encountered
             } catch (e: Exception) {
                 toastMsg.value = R.string.server_error_encountered
             }
