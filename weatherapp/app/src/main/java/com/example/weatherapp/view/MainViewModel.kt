@@ -1,5 +1,6 @@
 package com.example.weatherapp.view
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -27,8 +28,11 @@ class MainViewModel(val repo: WeatherRepo) : ViewModel() {
 
     val toastMsg = MutableLiveData<Int>()
 
+    val loading = MutableLiveData<Boolean>()
+
     fun searchCity(query: String) {
         viewModelScope.launch {
+            startLoading()
             try {
                 val result = repo.searchCity(query).search_api.result.map { it.cityInfo() }
                 if (!result.isNullOrEmpty())
@@ -38,11 +42,13 @@ class MainViewModel(val repo: WeatherRepo) : ViewModel() {
             } catch (e: Exception) {
                 toastMsg.value = R.string.no_result_found
             }
+            stopLoading()
         }
     }
 
     fun getWeather(latitude: String, longitude: String) {
         viewModelScope.launch {
+            startLoading()
             try {
                 val result = repo.getWeather("$latitude, $longitude").data
 
@@ -53,14 +59,16 @@ class MainViewModel(val repo: WeatherRepo) : ViewModel() {
                 city.weatherDesc = currentCondition.weatherDesc[0].value
                 city.humidity = currentCondition.humidity
                 city.temp = currentCondition.temp_C
-                if (!result.weather.isNullOrEmpty())
+                if (!result.weather.isNullOrEmpty()) {
                     cityWeatherLiveData.value = Pair(city, result.weather)
-                else
+                    saveCityInfoToDb(city)
+                } else {
                     toastMsg.value = R.string.server_error_encountered
+                }
             } catch (e: Exception) {
                 toastMsg.value = R.string.server_error_encountered
             }
-
+            stopLoading()
         }
     }
 
@@ -69,21 +77,32 @@ class MainViewModel(val repo: WeatherRepo) : ViewModel() {
             try {
                 repo.delete(city)
                 repo.saveCityInfoToDb(city)
+                stopLoading()
             } catch (e: Exception) {
-                toastMsg.value = R.string.saving_to_db_failed
+                Log.i("Saving to db", "Error: ${e.localizedMessage}")
             }
         }
     }
 
     fun loadCities() {
         viewModelScope.launch(Dispatchers.Main) {
+            startLoading()
             val cities = withContext(Dispatchers.IO) {
                 repo.getCities()
             }
             if (!cities.isNullOrEmpty()) {
                 searchCitiesLiveData.value = cities.sortedByDescending { it.id }.take(10)
             }
+            stopLoading()
         }
+    }
+
+    private fun startLoading() {
+        loading.value = true
+    }
+
+    private fun stopLoading() {
+        loading.value = false
     }
 }
 

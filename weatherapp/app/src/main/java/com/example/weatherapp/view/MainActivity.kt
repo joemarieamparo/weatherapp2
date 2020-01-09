@@ -13,6 +13,7 @@ import com.example.weatherapp.data.WeatherRepo
 import com.example.weatherapp.data.getDatabase
 import com.example.weatherapp.data.getSearchApiService
 import com.example.weatherapp.data.getWeatherApiService
+import com.example.weatherapp.utils.EspressoIdlingResouce
 import com.example.weatherapp.utils.addFragment
 import com.example.weatherapp.utils.toastLongMsg
 import com.example.weatherapp.view.fragments.cityweather.CityWeatherFragment
@@ -33,9 +34,7 @@ class MainActivity : AppCompatActivity() {
         viewModel.loadCities()
 
         viewModel.searchCitiesLiveData.observe(this, Observer {
-            it?.let {
-                addFragment(SearchResultFragment.newInstance(it))
-            }
+            if (!it.isNullOrEmpty()) addFragment(SearchResultFragment.newInstance(it))
         })
 
         viewModel.cityToForecastLiveData.observe(this, Observer {
@@ -48,12 +47,18 @@ class MainActivity : AppCompatActivity() {
             it?.let {
                 searchView.onActionViewCollapsed()
                 addFragment(CityWeatherFragment.newInstance(it))
-                viewModel.saveCityInfoToDb(it.first)
             }
         })
 
         viewModel.toastMsg.observe(this, Observer {
             toastLongMsg(it)
+        })
+
+        viewModel.loading.observe(this, Observer {
+            when (it) {
+                true -> EspressoIdlingResouce.increment()
+                else -> EspressoIdlingResouce.decrement()
+            }
         })
     }
 

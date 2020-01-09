@@ -18,28 +18,37 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
         html.enabled = true
     }
 
+
     def excludes = ['**/R.class',
                     '**/R$*.class',
+                    '**/BuildConfig.*',
+                    '**/Manifest*.*',
+                    'android/**/*.*',
+                    '**/Lambda$*.class', //Retrolambda
+                    '**/Lambda.class',
+                    '**/*Lambda.class',
+                    '**/*Lambda*.class',
+                    '**/*Lambda*.*',
+                    '**/*Builder.*',
+                    '**/*_MembersInjector.class', //Dagger2 generated code
+                    '**/*_MembersInjector*.*', //Dagger2 generated code
+                    '**/*_Factory.*', //Dagger2 generated code
+                    '**/*Component*.*', //Dagger2 generated code
+                    '**/*Module*.*', //Dagger2 generated code
                     '**/*$ViewBinder*.*',
                     '**/*$InjectAdapter*.*',
                     '**/*Injector*.*',
-                    '**/BuildConfig.*',
-                    '**/Manifest*.*',
                     '**/*Test*.*',
                     '**/*Activity*.*',
                     '**/CiMattersApplication*.*',
-                    'android/**/*.*',
                     '**/**Creator**',
                     '**/**_Impl**',
                     '**/**.invokeSuspend**',
                     '**/**.Creator**',
-                    '**/*MembersInjector*.*',
                     '**/*_Provide*Factory*.*',
-                    '**/*_Factory.*',
                     '**/*$*$*.*',
                     '**/**_ViewBinding**',
-                    '**/**Companion**',
-                    '**/data/models']
+                    '**/**Companion**']
 
     def debugTree = fileTree(
             dir: "$buildDir/intermediates/javac/debug/compileDebugJavaWithJavac/classes/de/logerbyte/jacocotest",

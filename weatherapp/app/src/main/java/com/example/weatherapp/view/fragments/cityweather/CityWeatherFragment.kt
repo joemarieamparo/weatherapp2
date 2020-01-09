@@ -52,8 +52,6 @@ class CityWeatherFragment : Fragment() {
         v.textview_current_weather.string(city.weatherDesc)
         v.textview_temp.string("${city.temp} degree Celsius")
 
-
-
         return v
     }
 }
